@@ -1,14 +1,39 @@
 ﻿
+using System.Globalization;
+using System.Net.Mail;
+using System.Numerics;
+using System.Security.AccessControl;
 using toplevel;
 
-Console.WriteLine("Ingresar un numero entero...");
 
-string entrada = Console.ReadLine();
+try
+{
+  Console.WriteLine("Ingresar un numero entero...");
 
-int n = Int32.Parse(entrada);
+  string entrada = Console.ReadLine();
 
-Calculadora miCalculadora = new ();
+  //  BigInteger n = BigInteger.Parse(entrada);
+  //  int n = Int32.Parse(entrada, NumberStyles.AllowThousands);
+  int n;
 
-var resultado = miCalculadora.Factorial(n);
+  if (Int32.TryParse(entrada, NumberStyles.AllowLeadingSign, null, out n))
+  {
+    Calculadora miCalculadora = new();
 
-Console.WriteLine($"El valor de {n}! = {resultado:N0}");
+    var resultado = miCalculadora.Factorial(n);
+    
+    Console.WriteLine($"El valor de {n}! = {resultado:N0}");
+  }
+  else
+  {
+    Console.WriteLine("Por favor ingresar un numero entero positivo");
+  }
+}
+catch (OverflowException ex)
+{
+  Console.WriteLine("EXCEPTION!! Este numero es muy grande para calcular el factorial");
+}
+catch
+{   
+  Console.WriteLine("Se produjo un error!");
+}
