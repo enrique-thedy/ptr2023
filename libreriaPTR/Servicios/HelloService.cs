@@ -20,7 +20,7 @@ public class HelloService
   {
     DateTime ahora = DateTime.Now;
 
-    _logger.LogCritical($"{ahora:F}");
+    _logger.LogTrace($"{ahora:F}");
 
     return ahora switch
     {
