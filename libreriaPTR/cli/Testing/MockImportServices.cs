@@ -10,9 +10,9 @@ namespace cli.Testing;
 
 public class MockImportServices : IImportServices
 {
-  public IEnumerable<LibroDTO> ObtenerLibros()
+  public Task<IEnumerable<LibroDTO>> ObtenerLibros()
   {
-    return Enumerable.Repeat(
-      new LibroDTO() {ISBN = "1234", Titulo = "Titulo", Paginas = 123}, 1);
+    return Task.FromResult(Enumerable.Repeat(
+      new LibroDTO() {ISBN = "1234", Titulo = "Titulo", Paginas = 123}, 1));
   }
 }

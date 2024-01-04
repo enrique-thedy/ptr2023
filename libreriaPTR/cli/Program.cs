@@ -8,23 +8,27 @@ var builder = Host.CreateDefaultBuilder(args);
 
 builder.ConfigureServices(serv =>
 {
-  //  serv.AddHostedService<Aplicacion2>();
+  serv.AddHostedService<Aplicacion2>();
+  serv.AddHostedService<Aplicacion1>();
+
   //  serv.AddScoped<IHostedService, Aplicacion>();
   //serv.AddSingleton<Aplicacion>(container => 
   //  new Aplicacion(container.GetRequiredService<HelloService>(), "Hola, Mundo!!"));
   serv.AddScoped<IImportServices, ImportServices>();
-  serv.AddSingleton<Aplicacion>();
+  //  serv.AddSingleton<Aplicacion>();
   serv.AddScoped<HelloService>();
 });
 
 var host = builder.Build();
 
-//  host.Run();
+host.Run();
 
 //  == new Aplicacion(...)
-var app = host.Services.GetRequiredService<Aplicacion>();  
+//  var app = host.Services.GetRequiredService<Aplicacion>();  
 
-app.Ejecutar();
+//  await app.Ejecutar();
+
+
 Console.ReadLine();
 
 public class Aplicacion 
@@ -38,13 +42,13 @@ public class Aplicacion
     _import = import;
   }
 
-  public void Ejecutar()
+  public async Task Ejecutar()
   {
     //var hello = new HelloService();
     Console.WriteLine(_serv.GetMensaje());
     var listaImportacion = _import.ObtenerLibros();
 
-    foreach (var libroDTO in listaImportacion)
+    foreach (var libroDTO in await listaImportacion)
     {
       Console.WriteLine($"{libroDTO.ISBN} {libroDTO.Titulo} {libroDTO.Paginas}");
     }
@@ -52,51 +56,68 @@ public class Aplicacion
 }
 
 
-//public class Aplicacion : IHostedService
-//{
-//  private readonly HelloService _serv;
+public class Aplicacion1 : IHostedService
+{
+  private readonly HelloService _serv;
+  private readonly IImportServices _import;
 
-//  public Aplicacion(HelloService serv)
-//  {
-//    _serv = serv;
-//  }
+  public Aplicacion1(HelloService serv, IImportServices import)
+  {
+    _serv = serv;
+    _import = import;
+  }
 
-//  public void Ejecutar()
-//  {
-//    //var hello = new HelloService();
+  public async Task Ejecutar()
+  {
+    Console.WriteLine(_serv.GetMensaje());
+    var listaImportacion = _import.ObtenerLibros();
 
-//    Console.WriteLine(_serv.GetMensaje());
-//  }
+    foreach (var libroDTO in await listaImportacion)
+    {
+      Console.WriteLine($"{libroDTO.ISBN} {libroDTO.Titulo} {libroDTO.Paginas}");
+    }
+  }
 
-//  public Task StartAsync(CancellationToken cancellationToken)
-//  {
-//    Ejecutar();
-//    return Task.CompletedTask;
-//  }
+  public Task StartAsync(CancellationToken cancellationToken)
+  {
+    Task.Run(() => Ejecutar());
 
-//  public Task StopAsync(CancellationToken cancellationToken)
-//  {
-//    return Task.CompletedTask;
-//  }
-//}
+    return Task.CompletedTask;
+  }
 
-//public class Aplicacion2 : IHostedService
-//{
-//  public void Ejecutar()
-//  {
-//    var hello = new HelloService();
+  public Task StopAsync(CancellationToken cancellationToken)
+  {
+    return Task.CompletedTask;
+  }
+}
 
-//    Console.WriteLine(hello.GetMensaje());
-//  }
+public class Aplicacion2 : IHostedService
+{
+  private readonly HelloService _serv;
 
-//  public Task StartAsync(CancellationToken cancellationToken)
-//  {
-//    Ejecutar();
-//    return Task.CompletedTask;
-//  }
+  public Aplicacion2(HelloService serv)
+  {
+    _serv = serv;
+  }
 
-//  public Task StopAsync(CancellationToken cancellationToken)
-//  {
-//    return Task.CompletedTask;
-//  }
-//}
+  public async Task Ejecutar()
+  {
+    for (int j = 1; j < 50; j++)
+    {
+      Console.WriteLine("Imprimir Linea");
+      await Task.Delay(100);
+    }
+  }
+
+  public Task StartAsync(CancellationToken cancellationToken)
+  {
+    Task.Run(Ejecutar);
+
+    return Task.CompletedTask;
+  }
+
+  public Task StopAsync(CancellationToken cancellationToken)
+  {
+    return Task.CompletedTask;
+  }
+}

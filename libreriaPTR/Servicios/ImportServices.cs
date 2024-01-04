@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -21,7 +22,7 @@ public class ImportServices : IImportServices
     _config = config;
   }
 
-  public IEnumerable<LibroDTO> ObtenerLibros()
+  public async Task<IEnumerable<LibroDTO>> ObtenerLibros()
   {
     HttpClient cliente = new HttpClient();
 
@@ -30,7 +31,25 @@ public class ImportServices : IImportServices
 
     _logger.LogInformation("Importando libros desde: {apiUrl}", url);
 
-    var cadenaJson = cliente.GetStringAsync(url).Result;
+    //  var cadenaJson = await cliente.GetStringAsync(url);
+
+    var response = await cliente.GetAsync(url);
+
+    //  response.EnsureSuccessStatusCode();
+
+    if (!response.IsSuccessStatusCode)
+    {
+      if (response.StatusCode == HttpStatusCode.NotFound)
+      {
+        var cadenaError = await response.Content.ReadAsStringAsync();
+
+        throw new ApplicationException($"Se recibio el error: {cadenaError}");
+      }
+
+      throw new ApplicationException($"Error sin datos");
+    }
+
+    var cadenaJson = await response.Content.ReadAsStringAsync();
 
     var opciones = new JsonSerializerOptions(JsonSerializerDefaults.Web);
 

@@ -10,5 +10,5 @@ namespace Servicios;
 
 public interface IImportServices
 {
-  IEnumerable<LibroDTO> ObtenerLibros();
+  Task<IEnumerable<LibroDTO>> ObtenerLibros();
 }

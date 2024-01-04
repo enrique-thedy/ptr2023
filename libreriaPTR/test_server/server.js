@@ -54,11 +54,18 @@ server.get("/api/libros", (request, response) => {
   console.log(request.url);
   console.dir(request.query);
 
-  response.set({
-    "Content-Type": "application/json; charset=utf-8",
-    "X-Powered-By": "NodeJS",
-  });
-  response.status(200).send(datosFull);
+  setTimeout(() =>
+  {
+    response.set({
+      "Content-Type": "application/json; charset=utf-8",
+      "X-Powered-By": "NodeJS",
+    });
+    response.status(200).send(datosFull);
+  //  response.status(400).send({
+  //    causa: "Paso algo",
+  //    subCodigo: 123456
+  //  });
+  }, 3);
 });
 
 

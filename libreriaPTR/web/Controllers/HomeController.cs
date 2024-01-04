@@ -5,6 +5,7 @@ using Servicios;
 using web.Models;
 
 namespace web.Controllers;
+
 public class HomeController : Controller
 {
   private readonly ILogger<HomeController> _logger;
@@ -16,9 +17,9 @@ public class HomeController : Controller
     _import = import;
   }
 
-  public IActionResult Index()
+  public async Task<IActionResult> Index()
   {
-    var listaImportacion = _import.ObtenerLibros();
+    var listaImportacion = await _import.ObtenerLibros();
 
     return View(listaImportacion);
   }
