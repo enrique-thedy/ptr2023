@@ -8,15 +8,14 @@ var builder = Host.CreateDefaultBuilder(args);
 
 builder.ConfigureServices(serv =>
 {
-  serv.AddHostedService<Aplicacion2>();
-  serv.AddHostedService<Aplicacion1>();
-
-  //  serv.AddScoped<IHostedService, Aplicacion>();
-  //serv.AddSingleton<Aplicacion>(container => 
-  //  new Aplicacion(container.GetRequiredService<HelloService>(), "Hola, Mundo!!"));
   serv.AddScoped<IImportServices, ImportServices>();
-  //  serv.AddSingleton<Aplicacion>();
   serv.AddScoped<HelloService>();
+
+  serv.AddHostedService<AppImprimirLineas>();
+  serv.AddHostedService<AppImportarLibros>();
+
+  //  serv.AddSingleton<Aplicacion>(container => new Aplicacion(container.GetRequiredService<HelloService>(), "Hola, Mundo!!"));
+  //  serv.AddSingleton<Aplicacion>();
 });
 
 var host = builder.Build();
@@ -56,12 +55,16 @@ public class Aplicacion
 }
 
 
-public class Aplicacion1 : IHostedService
+/// <summary>
+/// Uno de los hosted-service que vamos a tener en esta aplicacion de linea de comandos
+/// Obtiene datos de libros desde una API externa
+/// </summary>
+public class AppImportarLibros : IHostedService
 {
   private readonly HelloService _serv;
   private readonly IImportServices _import;
 
-  public Aplicacion1(HelloService serv, IImportServices import)
+  public AppImportarLibros(HelloService serv, IImportServices import)
   {
     _serv = serv;
     _import = import;
@@ -91,11 +94,16 @@ public class Aplicacion1 : IHostedService
   }
 }
 
-public class Aplicacion2 : IHostedService
+/// <summary>
+/// El otro hosted-service de esta aplicacion sera una tarea que imprime una linea cada
+/// determinado tiempo. Simplemente la usamos para ver como ambos hosted-services coexisten
+/// y se procesan simultaneamente
+/// </summary>
+public class AppImprimirLineas : IHostedService
 {
   private readonly HelloService _serv;
 
-  public Aplicacion2(HelloService serv)
+  public AppImprimirLineas(HelloService serv)
   {
     _serv = serv;
   }

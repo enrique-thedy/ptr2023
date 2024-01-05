@@ -61,11 +61,15 @@ server.get("/api/libros", (request, response) => {
       "X-Powered-By": "NodeJS",
     });
     response.status(200).send(datosFull);
-  //  response.status(400).send({
-  //    causa: "Paso algo",
-  //    subCodigo: 123456
-  //  });
-  }, 3);
+    //  si queremos provocar un error, reemplazar el response previo por el codigo de abajo
+    //  ademas de retornar un status code de error podemos incluir datos que estarian en el
+    //  body del mensaje http
+    //
+    //  response.status(400).send({
+    //    causa: "Paso algo",
+    //    subCodigo: 123456
+    //  });
+  }, 3000);
 });
 
 
