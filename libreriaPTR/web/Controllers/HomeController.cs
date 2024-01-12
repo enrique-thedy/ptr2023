@@ -21,7 +21,12 @@ public class HomeController : Controller
   {
     var listaImportacion = await _import.ObtenerLibros();
 
-    return View(listaImportacion);
+    ViewData["lista"] = listaImportacion;
+    //  ViewBag.Lista = listaImportacion;
+    //  ViewBag.Librosssss = listaImportacion;
+
+    //  ViewData.Model = listaImportacion;
+    return View("Inicio");
   }
 
   public IActionResult Privacy()

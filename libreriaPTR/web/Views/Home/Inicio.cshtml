@@ -1,0 +1,20 @@
+﻿@using Servicios
+@using Servicios.Modelos
+@model IEnumerable<Servicios.Modelos.LibroDTO>
+@inject HelloService hello
+
+@{
+  ViewData["Title"] = "Mostrar lista de libros";
+  var modelo = ViewBag.Lista as IEnumerable<LibroDTO>;
+}
+
+
+<div class="text-center">
+  <h1 class="display-4">@hello.GetMensaje()</h1>
+  <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+@foreach (var libro in modelo)
+{
+  <h3>Titulo: @libro.Titulo</h3>
+}
