@@ -1,18 +1,33 @@
 ﻿
+using cli;
 using cli.Testing;
+using Datos.Contextos;
+using Datos.Repositorios;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Servicios;
 
 var builder = Host.CreateDefaultBuilder(args);
 
-builder.ConfigureServices(serv =>
+builder.ConfigureServices((ctx, serv) =>
 {
   serv.AddScoped<IImportServices, ImportServices>();
   serv.AddScoped<HelloService>();
+  serv.AddScoped<ISecurityServices, SecurityServices>();
+  serv.AddScoped<ISecurityRepo, SecurityRepo>();
 
-  serv.AddHostedService<AppImprimirLineas>();
-  serv.AddHostedService<AppImportarLibros>();
+  //  serv.AddHostedService<AppImprimirLineas>();
+  //  serv.AddHostedService<AppImportarLibros>();
+  serv.AddHostedService<ETLSeguridad>();
+
+  serv.AddDbContext<SecurityContext>(opciones =>
+  {
+    opciones.UseSqlServer(ctx.Configuration.GetConnectionString("seguridad"));
+    opciones.EnableDetailedErrors();
+    opciones.EnableSensitiveDataLogging();
+  });
 
   //  serv.AddSingleton<Aplicacion>(container => new Aplicacion(container.GetRequiredService<HelloService>(), "Hola, Mundo!!"));
   //  serv.AddSingleton<Aplicacion>();

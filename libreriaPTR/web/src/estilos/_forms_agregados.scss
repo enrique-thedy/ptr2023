@@ -1,0 +1,48 @@
+/*
+  ***  THEDY  ***
+  Contiene estilos mejorados relativos a elementos de formularios (input, botones...)
+  Por ejemplo cuando tenemos un input-group que abarca algunos iconos, el estilo de focus solo abarca
+  el input y no los iconos adicionales
+
+  Este archivo deberia incluirse al menos luego de _custom-forms.scss
+  Si lo incluimos al final tambien estaria OK
+
+*/
+
+//
+//  Sombras de elementos form-control alternativas
+//  Para una explicacion detallada ver el documento 00-MVC.docx
+//
+@each $color, $value in $theme-colors {
+  .form-control.shadow-#{$color}:focus {
+    border-color: $value;
+    box-shadow: 0 0 0 0.2rem rgba($value, 0.25);
+  }
+
+  .form-control.item-#{$color}.reset-default {
+    border-color: $input-border-color !important;
+  }
+
+  .form-control.item-#{$color} {
+    border-color: $value;
+  }
+
+  .form-control.item-#{$color}:focus {
+    border-color: $value;
+    box-shadow: 0 0 0 0.2rem rgba($value, 0.25);
+  }
+
+  .input-group-text.item-#{$color} {
+    background-color: $value;
+    border-color: $value;
+  }
+
+  .input-group.item-#{$color}:focus-within {
+    border-radius: var(--bs-border-radius);
+    box-shadow: 0 0 0 0.2rem rgba($value, 0.25);
+  }
+
+  .input-group.item-#{$color} .form-control.item-#{$color}:focus-within {
+    box-shadow: none;
+  }
+}

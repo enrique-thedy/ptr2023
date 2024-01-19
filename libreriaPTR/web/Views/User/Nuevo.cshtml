@@ -1,0 +1,136 @@
+﻿@model web.Controllers.NewUserViewModel
+@{
+  ViewData["Title"] = "Nuevo";
+}
+
+
+<div class="row">
+
+  <div class="offset-1 col-10">
+
+    <div class="card m-4">
+      <h4 class="card-header text-black-50 bg-libreria text-center">Crear nuevo usuario</h4>
+
+      <form id="frmUsuario" name="frmUsuario"
+            asp-controller="User" asp-action="Nuevo" method="post">
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-4">
+              <div class="mb-3">
+                <label asp-for="Usuario.Nombre" class="form-label">Nombre</label>
+                <input asp-for="Usuario.Nombre" class="form-control">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="mb-3">
+                <label asp-for="Usuario.Login" class="form-label">Login</label>
+                <input asp-for="Usuario.Login" class="form-control">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="mb-3">
+                <label asp-for="Usuario.Correo" class="form-label">Correo</label>
+                <input asp-for="Usuario.Correo" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <div class="mb-3">
+                <label asp-for="Usuario.Nacimiento" class="form-label">Cumpleaños</label>
+                <input asp-for="Usuario.Nacimiento" type="text" class="form-control" value="">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="mb-3">
+                <label for="passwd" class="form-label">Password</label>
+                <input type="password" id="passwd" name="passwd" class="form-control">
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="mb-3">
+                <label for="password_bis" class="form-label">Repetir Password</label>
+                <input type="password" id="password_bis" class="form-control">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12 d-none bg-info-subtle text-black bg-opacity-50">
+              <div class="row">
+                <div class="col-12">
+                  <h6 class="bg-info bg-opacity-50 my-2 p-1">Datos de Direccion</h6>
+                  <div class="mb-3">
+                    <label for="direccion_1" class="form-label">Calle y Altura</label>
+                    <input type="text" id="direccion_1" name="" class="form-control">
+                  </div>
+                  <div class="mb-3">
+                    <label for="direccion_2" class="form-label">Piso, Departamento, etc...</label>
+                    <input type="text" id="direccion_2" name="" class="form-control">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-4">
+                  <div class="mb-3">
+                    <label for="localidad" class="form-label">Localidad</label>
+                    <input type="text" id="localidad" name="localidad" class="form-control">
+                  </div>
+                </div>
+                <div class="col-4">
+                  <div class="mb-3">
+                    <label for="Codigo_Postal" class="form-label">Codigo Postal</label>
+                    <input type="text" id="Codigo_Postal" name="codigo_postal" class="form-control">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <h6 class="text-center bg-info bg-opacity-50 my-2 p-1">Perfiles</h6>
+            <div class="col-4">
+              <span>Disponibles</span>
+              <div class="mb-3">
+@*                 <select asp-items="Model.Perfiles" id="cbDisponibles" multiple="multiple" class="form-control">
+                </select>
+ *@              </div>
+            </div>
+            <div class="col-4 mt-3 d-flex flex-row justify-content-center">
+              <div class="btn-group-vertical">
+                <button type="button" id="btnAgregar" class="btn btn-da-primary flex-grow-0">Agregar &#128073;&#127996;</button>
+                <button type="button" id="btnQuitar" class="btn btn-wep flex-grow-0">&#128072;&#127999; Quitar</button>
+              </div>
+            </div>
+            <div class="col-4">
+              <span>Asignados</span>
+              <div class="mb-3">
+@*                 <select id="cbAsignados" asp-for="Perfiles" multiple="multiple" class="form-control">
+                </select>
+ *@              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-footer">
+          <div class="row">
+            <div class="col-2">
+              <button class="btn btn-outline-danger w-100" type="reset">Cancelar</button>
+            </div>
+            <div class="offset-8 col-2">
+              <button id="btnCrear" class="btn btn-primary w-100" type="submit">Crear</button>
+            </div>
+          </div>
+
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+
+
+

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html lang="es-ar">
 
 <head>
@@ -8,13 +9,17 @@
   <link href="/css/bootstrap-ptr.css" rel="stylesheet" />
   <link href="/css/fa/v6/css/all.css" rel="stylesheet" />
 
-  <title>Maqueta para Pagina de Inicio</title>
+  @RenderSection("style_links", false)
+
+  <title>Libreria PTR Compre YA</title>
 
   <script src="/lib/jquery/jquery.js"></script>
   <script src="/lib/popper.js/umd/popper.js"></script>
   <script src="/lib/bootstrap/js/bootstrap.js"></script>
 
   <script src="/dist/js/maqueta/maqueta.bundle.js"></script>
+
+  @RenderSection("script_links", false)
 
   <style>
     html, body {
@@ -149,7 +154,7 @@
 
   </style>
 
-  <!--@RenderSection("style_page", false)-->
+  @RenderSection("style_page", false)
 
 
   <script language="javascript" type="text/javascript">
@@ -174,7 +179,8 @@
 
           $(this).parents("li.nav-item.dropdown.show")
             .on("hidden.bs.dropdown",
-              function(e) {
+              function (e)
+              {
                 $(".dropdown-submenu .show")
                   .removeClass("show");
               });
@@ -185,7 +191,7 @@
   </script>
 
 
-  <!--@RenderSection("script_page", false)-->
+  @RenderSection("script_page", false)
 
 
 </head>
@@ -204,9 +210,9 @@
         <div class="navbar-brand" style="font-size: 1rem;">
           <div class="d-flex">
             <a class="logotipo-libptr-img ms-1 me-0 p-0" href="#" title="Ir al inicio de la aplicacion">
-              <img src="imagenes/Logo_Polo.png" width="48" />
+              <img src="/imagenes/Logo_Polo.png" width="48" />
             </a>
-            <!--@await RenderSectionAsync("logotipo", true)-->
+            @* <!--@await RenderSectionAsync("logotipo", true)--> *@
             <!--    TEXTO ABREVIADO COLAPSA EN ANCHO NORMAL    -->
 
             <div class="d-lg-none" title="Bienvenido a la web de LibreriaPTR...este no es el ancho de pantalla mas apropiado...">
@@ -220,7 +226,7 @@
 
         <!--    HAMBURGUESA SOLO PARA ANCHOS REDUCIDOS    -->
 
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarContenido">
           <span class="navbar-toggler-icon text-dark"></span>
         </button>
@@ -317,7 +323,7 @@
 
             <!--  Espacio reservado para que cada sector renderice su propio menu  -->
 
-            <!--@RenderSection("menu_sector", false)-->
+            @RenderSection("menu_sector", false)
 
           </ul>
 
@@ -339,14 +345,19 @@
           </div>
 
           <!--  Iconos a la derecha  -->
+          
           <!--  BACK  -->
-          <!--@RenderSection("back_button", false)-->
+
+          @* @RenderSection("back_button", false) *@
+
           <!--  AYUDAS  -->
 
           <ul class="libptr-help navbar-nav ms-2"
               title="Informacion del sitio, ayuda de como utilizarlo, glosarios, bitacora de cambios">
             <li class="nav-item dropdown">
-              <a class="text-secondary" href="#" data-bs-toggle="dropdown" style="font-size: 2rem;">
+              <a class="text-secondary" 
+                 asp-controller="User" asp-action="Nuevo"
+                 data-bs-toggle="dropdown" style="font-size: 2rem;">
                 <i class="fa-solid fa-circle-info" style="color: #008040;"></i>
 
               </a>
@@ -360,7 +371,7 @@
 
                 <a class="dropdown-item force-pointer" target="_self"
                    asp-area="App" asp-controller="WebHelp" asp-action="Inicio">
-                  <i class="fa-solid fa-fw fa-hands-helping" 
+                  <i class="fa-solid fa-fw fa-hands-helping"
                      style="color: lightcoral; font-size: 1rem;">
                   </i>&nbsp;&nbsp;Ayudas para utilizar nuestra web
                 </a>
@@ -373,7 +384,7 @@
 
           <ul class="navbar-nav ms-2 me-2" title="Ir al inicio">
             <li>
-              <a href="#" asp-area="" asp-controller="Home" asp-action="Inicio" class="text-secondary">
+              <a asp-controller="User" asp-action="Nuevo" class="text-secondary">
                 <span class="fa-solid fa-landmark-dome fa-2x" style="color: chocolate;"></span>
               </a>
 
@@ -392,19 +403,19 @@
 
           <!--  Datos de usuario  -->
           <!--@*
-  Hay una issue abierta en github por el problema de que no podemos usar el taghelper para los
-  view components:
+          Hay una issue abierta en github por el problema de que no podemos usar el taghelper para los
+          view components:
 
-  ViewComponents called with the vc taghelper are broken on 7.0.3
-  https://github.com/dotnet/razor/issues/8281
-  *@-->
+          ViewComponents called with the vc taghelper are broken on 7.0.3
+          https://github.com/dotnet/razor/issues/8281
+          *@-->
 
           <ul id="userInfoComp" class="navbar-nav user-info-comp">
-            <!--@await Component.InvokeAsync(nameof(InformacionUsuario))-->
+            @* @await Component.InvokeAsync(nameof(InformacionUsuario)) *@
 
             <li class="dropdown">
               <a id="userInfoNav" class="user-info-mini-foto dropdown-toggle text-secondary"
-                 data-bs-toggle="dropdown" 
+                 data-bs-toggle="dropdown"
                  style="padding-bottom: 10px; padding-top: 10px; cursor: pointer;"
                  title="Usuario">
                 <img width="36" src="/imagenes/Doctora.png" alt="Usuario" class="rounded-circle" />
@@ -426,15 +437,15 @@
                 <li>
                   <div class="d-flex" style="align-items: end;">
                     <div class="flex-column d-flex" style="width: 90%;">
-                      <a class="text-dark user-info-link" 
+                      <a class="text-dark user-info-link"
                          asp-area="Admin" asp-controller="Main" asp-action="Inicio">
                         Opciones de Administracion
                       </a>
                       <a class="text-dark user-info-link" target="_blank" href="#">
                         Tareas en Background
                       </a>
-                      <a class="text-dark user-info-link" 
-                         asp-area="Security" asp-controller="User" asp-action="Config" asp-route-legajo="@Model.Usuario.ID">
+                      <a class="text-dark user-info-link"
+                         asp-area="Security" asp-controller="User" asp-action="Config" asp-route-legajo="123">
                         Modificar Perfil
                       </a>
                     </div>
@@ -460,14 +471,8 @@
 
     <div class="container-fluid">
 
-      <!--@RenderBody()-->
-      
-      <div class="bs-callout bs-callout-exotico">
-        <h4 class="callout-header">Mensaje al usuario</h4>
-        <div class="callout-body">
-          Pronto tendremos algo aca...
-        </div>
-      </div>
+      @RenderBody()
+
     </div>
 
   </div>
@@ -494,7 +499,7 @@
           <span class="d-block">Curso Aplicaciones Web | PTR</span>
         </div>
         <div class="col-5 text-white-50">
-          <span class="d-block">Version: @info.Version</span>
+          <span class="d-block">Version: info.Version</span>
 
           <span>info.Nombre</span>
           <span>($"{info.Fecha:dd/MM/yyyy HH:mm}")</span>
@@ -514,7 +519,7 @@
     </div>
   </footer>
 
-  <!--@RenderSection("widgets", false)-->
+  @RenderSection("widgets", false)
 
 </body>
 </html>

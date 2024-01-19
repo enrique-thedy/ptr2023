@@ -8,6 +8,15 @@
   var modelo = ViewBag.Lista as IEnumerable<LibroDTO>;
 }
 
+@section style_page {
+
+  <style>
+    .color-rojo {
+      color: var(--bs-carmin);
+    }
+  </style>
+}
+
 
 <div class="text-center">
   <h1 class="display-4">@hello.GetMensaje()</h1>
@@ -16,5 +25,13 @@
 
 @foreach (var libro in modelo)
 {
-  <h3>Titulo: @libro.Titulo</h3>
+  <h3 class="color-rojo">Titulo: @libro.Titulo</h3>
 }
+
+<div class=" bs-callout bs-callout-exotico">
+  <h4 class="callout-header">Mensaje al usuario</h4>
+  <div class="callout-body">
+    Pronto tendremos algo aca...
+  </div>
+</div>
+
