@@ -36,6 +36,7 @@ public class SecurityRepo :ISecurityRepo
       _ctx.Usuarios.Add(nuevo);
       _ctx.SaveChanges();
 
+      //  int filas = _ctx.Database.ExecuteSqlInterpolated($"call CambiarPassword( {nuevo.Login}, {pass})");
       int filas = _ctx.Database.ExecuteSqlInterpolated($"execute CambiarPassword {nuevo.Login}, {pass}");
 
       if (filas != 1)

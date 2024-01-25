@@ -15,7 +15,6 @@
       "destination": "wwwroot/lib/jquery-validate/"
     },
     {
-      "provider": "cdnjs",
       "library": "popper.js@2.11.8",
       "destination": "wwwroot/lib/popper.js/"
     },
@@ -38,6 +37,16 @@
       "provider": "filesystem",
       "library": "F:\\CURSOS\\2023\\libreriaPTR\\web\\node_modules\\@fortawesome\\fontawesome-free\\webfonts",
       "destination": "wwwroot/css/fa/v6/webfonts"
+    },
+    {
+      "provider": "unpkg",
+      "library": "just-validate@4.3.0",
+      "destination": "wwwroot/lib/just-validate/"
+    },
+    {
+      "provider": "unpkg",
+      "library": "js-sha256@0.11.0",
+      "destination": "wwwroot/lib/js-sha256/"
     }
   ]
 }
