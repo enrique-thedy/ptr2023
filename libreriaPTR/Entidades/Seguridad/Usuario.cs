@@ -32,4 +32,6 @@ public class Usuario
   public DateTime Nacimiento { get; set; }
 
   public ISet<Perfil> Perfiles { get; set; }
+
+  //public ISet<Direccion> Direcciones { get; set; }
 }

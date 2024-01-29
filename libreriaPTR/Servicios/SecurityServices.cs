@@ -7,15 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Datos.Repositorios;
+using Microsoft.Extensions.Logging;
+using Utiles;
 
 namespace Servicios;
 public class SecurityServices : ISecurityServices
 {
   private readonly ISecurityRepo _repo;
+  private readonly ILogger<SecurityServices> _logger;
 
-  public SecurityServices(ISecurityRepo repo)
+  public SecurityServices(ISecurityRepo repo, ILogger<SecurityServices> logger)
   {
     _repo = repo;
+    _logger = logger;
   }
 
   public IEnumerable<Perfil> GetPerfiles()
@@ -63,5 +67,21 @@ public class SecurityServices : ISecurityServices
   {
     //  que chequeos podriamos hacer?
     return true;
+  }
+
+  public Usuario Login(string login, string pass)
+  {
+    var user = _repo.GetUsuarioFromLogin(login);
+
+    if (user != null)
+    {
+      if (!_repo.ValidarPassword(user.Clave, pass))
+        throw new ApplicationException("Pass invalida...POSIBLE FRAUDE??? INCREMENTAR REINTENTOS");
+
+      return user;
+    }
+
+    _logger.LogCritical("El usuario {login} no existe. Chequear fraudes", login);
+    throw new ApplicationException($"El usuario {login} no existe. Chequear fraudes");
   }
 }

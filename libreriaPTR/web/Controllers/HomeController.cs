@@ -19,13 +19,14 @@ public class HomeController : Controller
 
   public async Task<IActionResult> Index()
   {
-    var listaImportacion = await _import.ObtenerLibros();
+    //  var listaImportacion = await _import.ObtenerLibros();
 
-    ViewData["lista"] = listaImportacion;
+    //  ViewData["lista"] = listaImportacion;
     //  ViewBag.Lista = listaImportacion;
     //  ViewBag.Librosssss = listaImportacion;
 
     //  ViewData.Model = listaImportacion;
+    ViewData.Model = null;
     return View("Inicio");
   }
 

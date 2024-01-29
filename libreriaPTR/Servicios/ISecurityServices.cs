@@ -18,4 +18,6 @@ public interface ISecurityServices
   Usuario CrearCliente(string nombre, string mail, string login, string pwd, DateTime nacimiento);
 
   bool SetearPassword(Guid id, string newPass);
+
+  Usuario Login(string login, string pass);
 }

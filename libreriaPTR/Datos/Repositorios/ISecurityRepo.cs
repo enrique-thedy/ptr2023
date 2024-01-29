@@ -15,4 +15,8 @@ public interface ISecurityRepo
   Usuario CrearUsuario(Usuario nuevo, string pass);
 
   bool SetPassword(Guid user, string pass);
+
+  Usuario GetUsuarioFromLogin(string login);
+
+  bool ValidarPassword(Guid user, string pass);
 }

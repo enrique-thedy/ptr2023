@@ -1,25 +1,11 @@
 /*
-  Cambiar las rutas correspondientes a los archivos de datos y log!!
+  DEFINICION DE ENTIDADES RELACIONADAS CON LA SEGURIDAD
+  - LOGIN
+  - REGISTRO
+  - AUTENTICACION
+  - AUTORIZACION
+  - CLAIMS
 */
-use master 
-
-create database Libreria on  primary 
-( 
-  name = Libreria_Data, 
-  filename = 'F:\CURSOS\2023\database\Libreria_Data.mdf', 
-  size = 8192kb, 
-  maxsize = unlimited, 
-  filegrowth = 50%
-)
-log on 
-( 
-  name = Libreria_Log, 
-  filename = 'F:\CURSOS\2023\database\Libreria_Log.ldf', 
-  size = 4096kb, 
-  maxsize = 2048gb, 
-  filegrowth = 100%
-)
-collate Modern_Spanish_CI_AI
 
 use Libreria
 
@@ -36,12 +22,16 @@ create table Perfiles
   --
   constraint PK_Perfiles primary key (ID)
 )
+--
+----
+------
 
 insert into Perfiles values ('Administrador', 0, 'Acceso a todas las opciones, modificar y agregar cualquier entidad')
 insert into Perfiles values ('StockAdmin', 0, 'Puede modificar cualquier aspecto del Catalogo de libros')
 insert into Perfiles values ('Visitante', 1, 'Visualizar productos, armar carritos. No tiene aun un medio de pago ni realizo una transaccion')
 insert into Perfiles values ('Comprador', 1, 'Los permisos del nivel Visitante, pero alguna vez compro y/o asocio un medio de pago')
 insert into Perfiles values ('Contabilidad', 0, 'Puede visualizar y cambiar datos de ventas, stock y otras areas de contabilidad')
+
 
 
 /*
@@ -77,7 +67,9 @@ create table Usuarios
   constraint UK_Usuarios_Login unique (Login),
   constraint UK_Usuarios_Email unique (Email)
 )
-
+--
+----
+------
 
 /*
   Creamos la join table para Usuarios *----* Perfiles 
@@ -96,10 +88,9 @@ create table Usuarios_Perfiles
   constraint FK_Usuarios_Perfiles_Perfiles 
     foreign key (ID_Perfil) references Perfiles(ID)
 )
-
-begin transaction
-
-commit
+--
+----
+------
 
 /*
 */
@@ -113,67 +104,40 @@ create table EmailVerifications
   constraint FK_EmailVerifications_Usuarios foreign key (EmailVerificado)
     references Usuarios(Email)
 )
-
-select * from Usuarios
---  delete from Usuarios
-
-select * from Perfiles
-
-select * from Usuarios_Perfiles
---  truncate table Usuarios_Perfiles
-
-truncate table Usuarios_Perfiles
-delete from Usuarios
-
---  drop table Usuarios
-
---  delete from Usuarios where Login='fdsfdsf'
-
-select PER.Nombre, USR.* 
-from Usuarios as USR 
-  inner join Usuarios_Perfiles as UP on UP.ID_Usuario=USR.Identificador
-  inner join Perfiles as PER on UP.ID_Perfil=PER.ID
+--
+----
+------
 
 /*
   Procedimiento para ejecutar el cambio de password del usuario sin necesidad de update
   en el cliente
   Evitamos transferir la contraseña a memoria
 
-  Tambien podriamos hacerlo sin el stores, mientras lo ejecutemos con ExecutInterpolatedSql
+  Tambien podriamos hacerlo sin el stored, mientras lo ejecutemos con ExecutInterpolatedSql
 */
 create or alter procedure CambiarPassword
   @login varchar(25), @pass varchar(100)
 as begin
   update Usuarios set Hashed_Password = @pass where [Login]=@login
 end
-
-
---  GENERAL
 --
---  informacion importante de version, seteos del usuario etc
+----
+------
 
-select  
-  serverproperty('MachineName') AS ComputerName,
-  serverproperty('ServerName') AS InstanceName,  
-  serverproperty('Edition') AS Edition,
-  serverproperty('ProductVersion') AS ProductVersion,  
-  serverproperty('ProductLevel') AS ProductLevel,
-  @@VERSION as VersionFriendly
-
---  SET
-dbcc useroptions()
-
-set language english
-
-set language spanish
-
-select * from sys.fn_helpcollations() where name like '%spanish%'
-
-use master
-go;
-
-
-go
-
-
+/*
+  Una alternativa para validar la password (siempre en el DB server) es usar un stored
+*/
+create or alter procedure ChequearPassword
+  @uid varchar(36), @pass varchar(100)
+as begin
+  if exists(select Identificador from Usuarios where Identificador=@uid and UPPER(Hashed_Password)=upper(@pass)) begin
+    select 'OK'
+  end 
+  else begin
+    select 'ERROR'
+  end
+end
+--
+----
+------
 

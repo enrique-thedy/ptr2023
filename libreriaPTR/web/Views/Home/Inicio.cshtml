@@ -1,7 +1,7 @@
 ﻿@using Servicios
 @using Servicios.Modelos
 @model IEnumerable<Servicios.Modelos.LibroDTO>
-@inject HelloService hello
+@inject HelloService Hello
 
 @{
   ViewData["Title"] = "Mostrar lista de libros";
@@ -19,19 +19,14 @@
 
 
 <div class="text-center">
-  <h1 class="display-4">@hello.GetMensaje()</h1>
-  <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  <h1 class="display-4">@Hello.GetMensaje()</h1>
 </div>
 
-@foreach (var libro in modelo)
+@if (modelo is not null)
 {
-  <h3 class="color-rojo">Titulo: @libro.Titulo</h3>
+  foreach (var libro in modelo)
+  {
+    <h3 class="color-rojo">Titulo: @libro.Titulo</h3>
+  }
 }
-
-<div class=" bs-callout bs-callout-exotico">
-  <h4 class="callout-header">Mensaje al usuario</h4>
-  <div class="callout-body">
-    Pronto tendremos algo aca...
-  </div>
-</div>
 

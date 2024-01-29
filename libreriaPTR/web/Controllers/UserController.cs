@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Servicios;
+using Utiles;
+using web.Models;
 
 namespace web.Controllers;
 public class UserController : Controller
@@ -79,8 +81,31 @@ public class UserController : Controller
     if (!ModelState.IsValid)
       return ReenviarFormulario();
 
+    try
+    {
+      var nuevoUsuario = _security.CrearEmpleado(user.Nombre, user.Correo, user.Login,
+        hashedPass, user.Nacimiento, perfilesAsignados);
 
-    return Ok();
+      //  notificacion con el nuevo ID del usuario...
+      _logger.LogInformation("Nuevo usuario ingresado con clave = {ID}", nuevoUsuario.Clave);
+
+      return RedirectToAction("Index", "Home");
+    }
+    catch (Exception ex)
+    {
+      FullErrorViewModel err =
+        new()
+        {
+          Titulo = "Houston...tenemos un problema",
+          Mensaje = "Se produjo un error intentando guardar el nuevo usuario",
+          Detalle = ex.Resumen(),
+          TraceIdentifier = HttpContext.TraceIdentifier,
+          Comunicacion = "Por favor comunicarse con soporte tecnico",
+          Source = "Nuevo Usuario"
+        };
+
+      return View("Errores/ErrorMejorado", err);
+    }
 
     #region FUNCIONES LOCALES
 
