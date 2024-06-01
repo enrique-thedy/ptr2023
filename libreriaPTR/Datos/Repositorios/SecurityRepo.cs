@@ -1,17 +1,12 @@
 ﻿using Entidades.Seguridad;
 using Microsoft.Extensions.Logging;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Datos.Contextos;
 using Microsoft.EntityFrameworkCore;
 
 namespace Datos.Repositorios;
 
-public class SecurityRepo :ISecurityRepo
+public class SecurityRepo : ISecurityRepo
 {
   private readonly SecurityContext _ctx;
   private readonly ILogger<SecurityContext> _logger;
@@ -64,8 +59,8 @@ public class SecurityRepo :ISecurityRepo
     try
     {
       var user = _ctx.Usuarios
-        .Include(u=>u.Perfiles)
-        .SingleOrDefault(usr => usr.Login == login);
+                     .Include(u => u.Perfiles)
+                     .SingleOrDefault(usr => usr.Login == login);
 
       return user;
     }
@@ -83,10 +78,11 @@ public class SecurityRepo :ISecurityRepo
     //  formen parte del modelo
     //
     var resultado = _ctx.Database
-      .SqlQueryRaw<Guid>(
-        "select Identificador from Usuarios where Identificador = {0} and Hashed_Password = {1}", user, pass)
-      .AsEnumerable()
-      .SingleOrDefault();
+                        .SqlQueryRaw<Guid>(
+                          "select Identificador from Usuarios where Identificador = {0} and Hashed_Password = {1}",
+                          user, pass)
+                        .AsEnumerable()
+                        .SingleOrDefault();
 
     //  si no devuelve nada, o sea si la password es incorrecta,
     //  el contenido es el default (un Guid = 000000000000-0000-0000-0000-00000000)

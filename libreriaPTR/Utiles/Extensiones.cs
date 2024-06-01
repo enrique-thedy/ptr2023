@@ -22,4 +22,18 @@ public static class Extensiones
 
     return sb.ToString();
   }
+
+  public static string JoinString<T>(this IEnumerable<T> src, Func<T, string> selector, string separator)
+  {
+    StringBuilder bob = new();
+    bool first = true;
+
+    foreach (var item in src)
+    {
+      bob.Append($"{(first ? "" : separator)}{selector(item)}");
+      first = false;
+    }
+
+    return bob.ToString();
+  }
 }

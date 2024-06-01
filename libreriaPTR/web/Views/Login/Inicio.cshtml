@@ -49,11 +49,16 @@
 
     <div class="card m-4">
       <h4 class="card-header text-black-50 bg-exotico text-center">Acceso</h4>
-
+      
       <form id="frmLogin" name="frmLogin"
             asp-controller="Login" asp-action="Inicio" method="post">
 
         <div class="card-body">
+          <div class="row">
+            <div asp-validation-summary="ModelOnly" data-summary-title="Lista de Errores">
+
+            </div>
+          </div>
           <div class="row">
             <div class="col-12">
               <div class="mb-3">

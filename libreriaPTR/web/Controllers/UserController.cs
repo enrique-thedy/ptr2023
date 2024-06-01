@@ -1,5 +1,6 @@
 ﻿using Entidades;
 using Entidades.Seguridad;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -8,6 +9,8 @@ using Utiles;
 using web.Models;
 
 namespace web.Controllers;
+//Administrador, Contabilidad
+[Authorize(Roles = "StockAdmin")]
 public class UserController : Controller
 {
   private readonly ISecurityServices _security;

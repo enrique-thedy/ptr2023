@@ -52,7 +52,7 @@ create table Usuarios
   Identificador       uniqueidentifier    not null    default newid(),
   Login               varchar(25)         not null,
   --
-  Nombre              varchar(25)         not null,
+  Nombre              varchar(200)        not null,
   Tipo_Usuario        int                 not null    default(1),   --  default cliente
   Email               varchar(50)         not null,
   Email_Valido        bit                 not null    default(0),
@@ -132,9 +132,11 @@ create or alter procedure ChequearPassword
 as begin
   if exists(select Identificador from Usuarios where Identificador=@uid and UPPER(Hashed_Password)=upper(@pass)) begin
     select 'OK'
+    --return 1
   end 
   else begin
     select 'ERROR'
+    --return 0
   end
 end
 --

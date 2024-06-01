@@ -6,6 +6,7 @@ use Libreria
 
 select * from Usuarios
 --  delete from Usuarios
+select * from Usuarios where Tipo_Usuario=1
 
 select * from Perfiles
 
@@ -35,6 +36,9 @@ delete from Usuarios where Identificador=@borrar
 execute ChequearPassword '70b09100-e5bf-4d75-b4a1-eaae580b127b', '03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4'
 
 execute ChequearPassword '80b09100-e5bf-4d75-b4a1-eaae580b127b', '03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4'
+
+SELECT t.Value
+FROM (execute ChequearPassword '70b09100-e5bf-4d75-b4a1-eaae580b127b', '03AC674216F3E15C761EE1A5E255F067953623C8B388B4459E13F978D7C846F4') as t
 
 
 /*
@@ -84,11 +88,14 @@ select SCOPE_IDENTITY()
 delete from Usuarios where Identificador='7DE05366-CB3D-43DB-8654-572CC1824721'
 insert into Usuarios_Perfiles ()
 
-select HASHBYTES('SHA2_256', '123')
-select convert(varchar(100), HASHBYTES('SHA2_256', '123'), 2)
+select HASHBYTES('SHA2_256', 'ginny')
+select convert(varchar(100), HASHBYTES('SHA2_256', 'ginny'), 2)
+select convert(varchar(100), HASHBYTES('SHA2_256', '1234'), 2)
 
 select * from Usuarios
-update Usuarios set Hashed_Password = convert(varchar(100), HASHBYTES('SHA2_256', Hashed_Password), 2)
+update Usuarios 
+  set Hashed_Password = convert(varchar(100), HASHBYTES('SHA2_256', 'ronald'), 2)
+where Login='hermi'
 
 
 
